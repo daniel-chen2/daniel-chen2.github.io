@@ -3,17 +3,16 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Header from '../partials/header'
 
-
-
-const Home: NextPage = () => {
+const About: NextPage = () => {
   return (
-    <div className='flex'>
+    <div>
       <Header></Header>
-      <aside>
-        <h1 className='text-3xl font-bold underline'>Hello</h1>
-      </aside>
+      
+      <div>
+        <h1 className='text-3xl font-bold underline bg-blue-500'>Hello</h1>
+      </div>
     </div>
   )
 }
 
-export default Home
+export default About
