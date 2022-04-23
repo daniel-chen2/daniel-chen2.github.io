@@ -5,4 +5,18 @@ body{
 
 }
 
+#character{
+    transition:left 0.05s linear;
+    background-image: url('../imgs/MainGuySpriteSheet.png');
+    background-position: 0% 2.5%;
+    background-size: 300px;
+}
+
+.character-right{
+    transition:left 0.05s linear;
+    background-image: url('../imgs/MainGuySpriteSheet.png');
+    background-position: 0% 2.5%;
+    background-size: 300px;
+}
+
 @tailwind utilities;
