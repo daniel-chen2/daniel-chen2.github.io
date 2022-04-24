@@ -1,25 +1,25 @@
 @tailwind base;
 @tailwind components;
 
-body{
-
+html, body{
+    overflow: hidden;
 }
 
 .character{
     transition:left 0.05s, top 0.05s;
     background-image: url('../imgs/MainGuySpriteSheet.png');
-    background-size: 300px;
+    background-size: 350%;
 }
 
 .character-down{
     background-position: 0% 3%;
-    background-size: 300px;
+    background-size: 375%;
 }
 
 .character-right {
     background-image: url('../imgs/MainGuySpriteSheet.png');
     background-position: 0% 35%;
-    background-size: 300px;
+    background-size: 350%;
 }
 
 .character-right .walking {
@@ -33,18 +33,19 @@ body{
 .character-up {
     background-image: url('../imgs/MainGuySpriteSheet.png');
     background-position: 0% 65%;
-    background-size: 300px;
+    background-size: 350%;
 }
 
 .character-left {
     background-image: url('../imgs/MainGuySpriteSheet.png');
     background-position: 0% 98%;
-    background-size: 300px;
+    background-size: 350%;
 }
 
 .home {
-    background-image: url('../imgs/bedroom.webp');
-    background-size: cover;
+    background-image: url('../imgs/Textures/Wood/WOODA.png');
+    background-size: 5%;
+    /* background-size: cover; */
 }
 
 @tailwind utilities;

@@ -5,11 +5,17 @@ import Header from '../partials/header'
 import React, { useEffect, useRef, useState } from "react";
 
 function Game() {
-  const playerSpeed = 10
+  const gameWidth = 2000;
+  const gameHeight = 800;
+
+  const boundariesX = new Set([0, gameWidth]);
+  const boundariesY = new Set([0, gameHeight])
 
   return (
-    <div className='home bg-orange-900 w-full'>
-      <Character startingPosLeft={500} startingPosTop={500} width={100} height={100} speed={20}/>
+    <div className='home' style={{
+      width: gameWidth, 
+      height: gameHeight }}>
+      <Character boundariesX= {boundariesX}  boundariesY={boundariesY} startingPosLeft={500} startingPosTop={500} width={50} height={50} speed={20} />
     </div>
   )
 }
@@ -18,18 +24,18 @@ function Game() {
 // Character
 // Entity
 function Character(props: any) {
-  const[left, setLeft] = useState(props.startingPosLeft)
-  const[top, setTop] = useState(props.startingPosTop)
-  const[width, setWidth] = useState(props.width)
-  const[height, setHeight] = useState(props.height)
-
-  const speed = props.speed
-  const[classString, setClassString] = useState(
+  const [left, setLeft] = useState(props.startingPosLeft)
+  const [top, setTop] = useState(props.startingPosTop)
+  const [classString, setClassString] = useState(
     "character-down"
   )
-  
-  const[styleObj, setStyleObj] = useState({
-    left: left, 
+
+  const speed = props.speed
+  const width = props.width
+  const height = props.height
+
+  const [styleObj, setStyleObj] = useState({
+    left: left,
     top: top,
     width: width,
     height: height
@@ -46,29 +52,40 @@ function Character(props: any) {
     )
   }
 
+  function canWalk(left: number, top: number) {
+    if (left > 0 && top > 0 && left < 2000 && top < 1000) {
+      return true
+    }
+    return false
+  }
+
   function keyPress(e: any) {
     if (e.key == 'ArrowDown') {
-      setTop(top+speed);
       setClassString('character-down')
+      if (!canWalk(left, top + 10)) return
+      setTop(top + speed);
     }
     else if (e.key == 'ArrowUp') {
-      setTop(top-speed);
       setClassString('character-up');
+      if (!canWalk(left, top - 10)) return
+      setTop(top - speed);
     }
     else if (e.key == 'ArrowLeft') {
-      setLeft(left-speed);
       setClassString('character-left')
+      if (!canWalk(left - 15, top)) return
+      setLeft(left - speed);
     }
     else if (e.key == 'ArrowRight' || e.keyPress == 'ArrowRight') {
-      setLeft(left+speed);
       setClassString('character-right walking')
+      if (!canWalk(left + 10, top)) return
+      setLeft(left + speed);
     }
   }
 
   useEffect(() => {
     document.addEventListener("keydown", keyPress)
     updateStyle()
-    
+
     return () => {
       document.removeEventListener("keydown", keyPress)
     }
@@ -76,7 +93,7 @@ function Character(props: any) {
 
   return (
     <div
-      className= {`character ${classString} relative w-20 h-20 inline-block`} 
+      className={`character ${classString} relative w-20 h-20 inline-block`}
       style={
         styleObj
       }
