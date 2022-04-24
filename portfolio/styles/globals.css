@@ -5,18 +5,46 @@ body{
 
 }
 
-#character{
-    transition:left 0.05s linear;
+.character{
+    transition:left 0.05s, top 0.05s;
     background-image: url('../imgs/MainGuySpriteSheet.png');
-    background-position: 0% 2.5%;
     background-size: 300px;
 }
 
-.character-right{
-    transition:left 0.05s linear;
-    background-image: url('../imgs/MainGuySpriteSheet.png');
-    background-position: 0% 2.5%;
+.character-down{
+    background-position: 0% 3%;
     background-size: 300px;
+}
+
+.character-right {
+    background-image: url('../imgs/MainGuySpriteSheet.png');
+    background-position: 0% 35%;
+    background-size: 300px;
+}
+
+.character-right .walking {
+    animation: walkRight 0.8s steps(2) infinite;
+}
+
+@keyframes walkRight {
+    100% {background-position: 100% 32.5%;}
+  }
+
+.character-up {
+    background-image: url('../imgs/MainGuySpriteSheet.png');
+    background-position: 0% 65%;
+    background-size: 300px;
+}
+
+.character-left {
+    background-image: url('../imgs/MainGuySpriteSheet.png');
+    background-position: 0% 98%;
+    background-size: 300px;
+}
+
+.home {
+    background-image: url('../imgs/bedroom.webp');
+    background-size: cover;
 }
 
 @tailwind utilities;
