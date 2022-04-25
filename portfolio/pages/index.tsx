@@ -5,18 +5,62 @@ import Header from '../partials/header'
 import React, { useEffect, useRef, useState } from "react";
 
 function Game() {
-  const gameWidth = 2000;
-  const gameHeight = 800;
+  const gameWidth = 1000;
+  const gameHeight = 600;
 
-  const boundariesX = new Set([0, gameWidth]);
-  const boundariesY = new Set([0, gameHeight])
+  const gameBoundaries = [
+    {
+      xRange: [Number.NEGATIVE_INFINITY, 0],
+      yRange: [Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY],
+    },
+    {
+      xRange: [0, Number.POSITIVE_INFINITY],
+      yRange: [Number.NEGATIVE_INFINITY, 0],
+    },
+    {
+      xRange: [gameWidth, Number.POSITIVE_INFINITY],
+      yRange: [0, Number.POSITIVE_INFINITY],
+    },
+    {
+      xRange: [0, Number.POSITIVE_INFINITY],
+      yRange: [gameHeight, Number.POSITIVE_INFINITY],
+    }
+  ]
+
+  let gameObjects: JSX.Element[] = []
+
+  function insertGameObjectAndBoundary(left: number, top: number, width: number, height: number) {
+    gameObjects.push(
+      <div className="gameEntity" style={{left: left, top: top, width: width, height: height}}>Hello</div>
+    )
+    gameBoundaries.push(
+      {
+        xRange: [left, left+width],
+        yRange: [top, top+height],
+      }
+    )
+  }
+
+  function renderEnvironmentObjectsAndBoundaries() {
+    return <>
+      {gameObjects} 
+    </>
+  }
+
+  insertGameObjectAndBoundary(0, 200, 50, 50)
+  insertGameObjectAndBoundary(0, 0, gameWidth, 200)
 
   return (
-    <div className='home' style={{
-      width: gameWidth, 
-      height: gameHeight }}>
-      <Character boundariesX= {boundariesX}  boundariesY={boundariesY} startingPosLeft={500} startingPosTop={500} width={50} height={50} speed={20} />
-    </div>
+    <>
+      <div className='home' style={{
+        width: gameWidth,
+        height: gameHeight
+      }}>
+        <div className='wall gameEntity'></div>
+        <Character gameBoundaries={gameBoundaries} startingPosLeft={500} startingPosTop={500} width={50} height={55} speed={20} />
+        {renderEnvironmentObjectsAndBoundaries() }
+      </div>
+    </>
   )
 }
 
@@ -53,32 +97,39 @@ function Character(props: any) {
   }
 
   function canWalk(left: number, top: number) {
-    if (left > 0 && top > 0 && left < 2000 && top < 1000) {
-      return true
-    }
-    return false
+    const hitBoundary = props.gameBoundaries.some(
+      function (gameBoundary: any) {
+        return (
+          left + (0.5 * width) >= gameBoundary.xRange[0] && left + (0.25 * width) <= gameBoundary.xRange[1] &&
+          top + (0.5 * height) >= gameBoundary.yRange[0] && top + (0.5 * height) <= gameBoundary.yRange[1]
+        );
+        
+      }
+    )
+
+    // (left + (0.25 * width) > 0 && top + (0.25 * height) > 0 && left < props.boundaryX && top < props.boundaryY)
+    return !hitBoundary
+  }
+
+  function walk(left = 1, top = 1, classString: string) {
+    setClassString(classString)
+    if (!canWalk(left, top)) return
+    setTop(top);
+    setLeft(left)
   }
 
   function keyPress(e: any) {
     if (e.key == 'ArrowDown') {
-      setClassString('character-down')
-      if (!canWalk(left, top + 10)) return
-      setTop(top + speed);
+      walk(left, top + speed, 'character-down')
     }
     else if (e.key == 'ArrowUp') {
-      setClassString('character-up');
-      if (!canWalk(left, top - 10)) return
-      setTop(top - speed);
+      walk(left, top - speed, 'character-up')
     }
     else if (e.key == 'ArrowLeft') {
-      setClassString('character-left')
-      if (!canWalk(left - 15, top)) return
-      setLeft(left - speed);
+      walk(left - speed, top, 'character-left')
     }
     else if (e.key == 'ArrowRight' || e.keyPress == 'ArrowRight') {
-      setClassString('character-right walking')
-      if (!canWalk(left + 10, top)) return
-      setLeft(left + speed);
+      walk(left + speed, top, 'character-right')
     }
   }
 
@@ -92,28 +143,35 @@ function Character(props: any) {
   }, [left, top, classString]);
 
   return (
-    <div
-      className={`character ${classString} relative w-20 h-20 inline-block`}
-      style={
-        styleObj
-      }
-    ></div>
+      <div
+        className={`character ${classString} relative w-20 h-20 inline-block`}
+        style={
+          styleObj
+        }
+      >
+      </div>
   )
 }
 
-class PhysicalProperties {
-  posLeft = 0;
-  posTop = 0;
-  width = 0;
-  height = 0;
+function GameEntity() {
+  const left = 0;
+  const top = 0;
+  const width = 0;
+  const height = 0;
 
-  constructor(posLeft: number, posTop: number, width: number, height: number) {
-    this.posLeft = posLeft;
-    this.posTop = posTop;
-    this.width = width;
-    this.height = height;
-  }
+  const [styleObj, setStyleObj] = useState({
+    left: left,
+    top: top,
+    width: width,
+    height: height
+  })
+
+  return (
+    <div style={styleObj} className=''>
+    </div>
+  )
 }
+
 
 const Home: NextPage = () => {
   return (
