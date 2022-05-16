@@ -32,7 +32,7 @@ class Sprite {
         this.mapObjects = [
             {
                 name: "resume",
-                href: "resume.pdf",
+                href: "https://github.com/daniel-chen2/resume/blob/main/resume.pdf",
                 leftSide: -460,
                 rightSide: -265,
                 bottomSide: -30,
@@ -42,6 +42,13 @@ class Sprite {
                 name: "bed",
                 leftSide: -460,
                 rightSide: -265,
+                bottomSide: 277,
+                topSide: 110
+            },
+            {
+                name: "table",
+                leftSide: -50,
+                rightSide: 230,
                 bottomSide: 277,
                 topSide: 110
             }
@@ -82,8 +89,8 @@ class Sprite {
     openHrefOfNearObject() {
         console.log(isKeyDown)
         if (isKeyDown.enter && this.nearObject.href != null) {
-            window.open(this.nearObject.href,'_blank', "popup");
             isKeyDown.enter = false;
+            window.open(this.nearObject.href,'_blank');
         }
     }
 
@@ -161,7 +168,6 @@ const background = new Sprite({
 function animate() {
     window.requestAnimationFrame(animate);
     background.movePlayerAndDrawBackground()
-    background.openHrefOfNearObject()
 }
 animate()
 
@@ -180,6 +186,7 @@ document.onkeydown = function (e) {
             isKeyDown.right = true
         case 'Enter':
             isKeyDown.enter = true
+            background.openHrefOfNearObject()
     }
 };
 
