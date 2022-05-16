@@ -47,15 +47,23 @@ class Sprite {
     movePlayer() {
         if(isKeyDown.up) {
             this.setPlayerPosition(background.position.x, background.position.y - this.velocity)
+            this.playerImageCropX = 32
+            this.playerImageCropY = 0
         }
         else if(isKeyDown.down) {
             this.setPlayerPosition(background.position.x, background.position.y + this.velocity)
+            this.playerImageCropX = 96
+            this.playerImageCropY = 0
         }
         else if(isKeyDown.right) {
             this.setPlayerPosition(background.position.x + this.velocity, background.position.y)
+            this.playerImageCropX = 0
+            this.playerImageCropY = 0
         }
         else if(isKeyDown.left) {
             this.setPlayerPosition(background.position.x - this.velocity, background.position.y)
+            this.playerImageCropX = 64
+            this.playerImageCropY = 0
         }
     }
 
@@ -73,11 +81,19 @@ class Sprite {
         )
     }
 
+    drawMapObjects(imageUrl, dx, dy) {
+        const mapImage = new Image()
+        mapImage.src = imageUrl
+        context.drawImage(this.image, this.position.x*-1, this.position.y*-1)
+    }
+
     movePlayerAndDrawBackground() {
         this.movePlayer()
         context.clearRect(0,0,canvas.width, canvas.height);
         context.createPattern(this.image,"no-repeat")
+        
         context.drawImage(this.image, this.position.x*-1, this.position.y*-1)
+        this.drawPlayer(this.playerImageCropX, this.playerImageCropY)
     }
 }
 
@@ -86,7 +102,7 @@ const background = new Sprite({
         x: 150,
         y: 100
     },
-    velocity: 2,
+    velocity: 3,
     image: mapImage
 })
 

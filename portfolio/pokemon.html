@@ -1,6 +1,34 @@
-<body style="background-color: black;">
-    <canvas id="pokemonCanvas"></canvas>
+<body style="background-color: black; margin: 0;">
+    <div style="display: flex; padding: 0; ">
+        <div style="width:20%; background:ghostwhite; height: 100vh;">
+            <div style="padding-left: 20px">
+                <h2>Daniel Chen</h2>
+                <ul>
+                    <li>
+                        About
+                    </li>
+                    <li>
+                        Resume
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div>
+            <canvas id="pokemonCanvas"></canvas>
+        </div>
+    </div>
 </body>
 
+<style>
+    @font-face {
+        font-family: myFirstFont;
+        src: url(PressStart2P-Regular.ttf);
+    }
+
+    * {
+        font-family: myFirstFont;
+    }
+</style>
 
 <script src="script.js"></script>
