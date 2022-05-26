@@ -40,6 +40,7 @@ class Sprite {
             },
             {
                 name: "bed",
+                href: "https://www.youtube.com/watch?v=QRZ7VS7uJHI&ab_channel=AllieWiggle",
                 leftSide: -460,
                 rightSide: -265,
                 bottomSide: 277,
@@ -81,15 +82,13 @@ class Sprite {
         this.nearObject = this.mapObjects.find(function (obj) {
             return background.position.y > obj.topSide - 10 && // up boundary
                 background.position.y < obj.bottomSide + 10 &&
-                background.position.x > obj.leftSide + 10 &&
-                background.position.x < obj.rightSide - 10
+                background.position.x > obj.leftSide - 10 &&
+                background.position.x < obj.rightSide + 10
         })
     }
 
     openHrefOfNearObject() {
-        console.log(isKeyDown)
-        if (isKeyDown.enter && this.nearObject.href != null) {
-            isKeyDown.enter = false;
+        if (this.nearObject.href !== null) {
             window.open(this.nearObject.href,'_blank');
         }
     }
@@ -173,6 +172,10 @@ animate()
 
 document.onkeydown = function (e) {
     switch (e.key) {
+        case 'Enter':
+            isKeyDown.enter = true
+            background.openHrefOfNearObject()
+            break;
         case 'ArrowUp':
             isKeyDown.up = true
             break;
@@ -184,14 +187,14 @@ document.onkeydown = function (e) {
             break;
         case 'ArrowRight':
             isKeyDown.right = true
-        case 'Enter':
-            isKeyDown.enter = true
-            background.openHrefOfNearObject()
     }
 };
 
 document.onkeyup = function (e) {
     switch (e.key) {
+        case 'Enter':
+            isKeyDown.enter = false
+            break;
         case 'ArrowUp':
             isKeyDown.up = false
             break;
@@ -203,7 +206,5 @@ document.onkeyup = function (e) {
             break;
         case 'ArrowRight':
             isKeyDown.right = false
-        case 'Enter':
-            isKeyDown.enter = false
     }
 };
