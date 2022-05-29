@@ -8,11 +8,22 @@ export class Character {
         this.playerImage = new Image()
         this.playerImage.src = imageSrc
 
-        this.playerImageCropX = 0
-        this.playerImageCropY = 0
+        this.playerImageCropX = 32 * 18
+        this.playerImageCropY = 64
+
+        this.frame = 0
 
         // Helpers
         this.collisionEngine = collisionEngine
+    }
+
+    incrementFrame() {
+        let spriteNumber = 60
+        this.frame = (this.frame + 1) % spriteNumber
+    }
+
+    getSpriteNumber() {
+        return Math.round(this.frame/12)
     }
 
     setCollisionEngine(collisionEngine) {
@@ -26,28 +37,35 @@ export class Character {
         }
     }
 
-    movePlayerAndSetCollidedObject() {
+    movePlayer() {
         if (isKeyDown.up) {
             this.setPlayerPosition(this.position.x, this.position.y - this.velocity)
-            this.playerImageCropX = 32
-            this.playerImageCropY = 0
+            this.playerImageCropX = (32 * 6) + this.getSpriteNumber() * 32
+            this.playerImageCropY = (32 * 4)
+            this.incrementFrame()
         }
         else if (isKeyDown.down) {
             this.setPlayerPosition(this.position.x, this.position.y + this.velocity)
-            this.playerImageCropX = 96
-            this.playerImageCropY = 0
+            this.playerImageCropX = (32 * 18) + this.getSpriteNumber() * 32
+            this.playerImageCropY =  (32 * 4)
+            this.incrementFrame()
         }
         else if (isKeyDown.right) {
             this.setPlayerPosition(this.position.x + this.velocity, this.position.y)
-            this.playerImageCropX = 0
-            this.playerImageCropY = 0
+            this.playerImageCropX = 0 + this.getSpriteNumber() * 32
+            this.playerImageCropY =  (32 * 4)
+            this.incrementFrame()
         }
         else if (isKeyDown.left) {
             this.setPlayerPosition(this.position.x - this.velocity, this.position.y)
-            this.playerImageCropX = 64
-            this.playerImageCropY = 0
+            this.playerImageCropX = (12*32) + this.getSpriteNumber() * 32
+            this.playerImageCropY =  (32 * 4)
+            this.incrementFrame()
         }
-        
+        else {
+            this.playerImageCropX = this.playerImageCropX + this.getSpriteNumber() * 32
+            this.frame = 0
+        }
     }
 
     openHrefOfNearObject() {

@@ -16,7 +16,7 @@ export class Game {
 
     animateFrame() {
         // console.log("hello")
-        this.character.movePlayerAndSetCollidedObject()
+        this.character.movePlayer()
         this.framePainter.repaintGameFrame(this.canvas, this.context, this.gameMap, this.character)
     }
 }

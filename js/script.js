@@ -6,8 +6,9 @@ import { Game } from './Game.js';
 const canvas = document.getElementById("pokemonCanvas");
 canvas.width = 1024
 canvas.height = 576
+let velocity = 2.5
 
-export let character = new Character({ x: 0, y: 0 }, 5, '../imgs/characterSheet.png')
+export let character = new Character({ x: 0, y: 0 }, velocity, '../imgs/characterSheet.png')
 let gameMap = new GameMap(canvas.width, canvas.height, "../imgs/mapBackground.png", null, null)
 
 let collisionMap = [
