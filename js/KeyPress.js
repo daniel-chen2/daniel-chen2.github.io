@@ -1,3 +1,5 @@
+import { character } from "./script.js";
+
 export let isKeyDown = {
     up: false,
     down: false,
@@ -10,6 +12,7 @@ document.onkeydown = function (e) {
     switch (e.key) {
         case 'Enter':
             isKeyDown.enter = true
+            character.openHrefOfNearObject()
             break;
         case 'ArrowUp':
             isKeyDown.up = true
@@ -22,6 +25,7 @@ document.onkeydown = function (e) {
             break;
         case 'ArrowRight':
             isKeyDown.right = true
+            break;
     }
 };
 
@@ -41,5 +45,6 @@ document.onkeyup = function (e) {
             break;
         case 'ArrowRight':
             isKeyDown.right = false
+            break;
     }
 };

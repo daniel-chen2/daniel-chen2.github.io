@@ -1,22 +1,5 @@
-import { Character } from './models/Character.js';
-import { GameMap } from './models/GameMap.js';
-
-const canvas = document.getElementById("pokemonCanvas");
-const context = canvas.getContext("2d");
-
-canvas.width = 1024
-canvas.height = 576
-
-const mapImage = new Image()
-mapImage.src = "../imgs/mapBackground.png"
-
-const playerImage = new Image()
-playerImage.src = '../imgs/characterSheet.png'
-
-context.drawImage(playerImage, 0, 0)
-
 // Stores/Updates Elements and Animates the Game
-class Game {
+export class Game {
     constructor(gameMap, character, canvas, collisionMap) {
         this.gameMap = gameMap;
         this.character = character;
@@ -32,7 +15,8 @@ class Game {
     }
 
     animateFrame() {
-        this.character.executePlayerActions()
+        // console.log("hello")
+        this.character.movePlayerAndSetCollidedObject()
         this.framePainter.repaintGameFrame(this.canvas, this.context, this.gameMap, this.character)
     }
 }
@@ -53,12 +37,12 @@ class FramePainter {
     }
 
     drawGameMap() {
-        context.createPattern(this.gameMap.backgroundImage, "no-repeat")
-        context.drawImage(this.gameMap.backgroundImage, this.character.position.x * -1, this.character.position.y * -1)
+        this.context.createPattern(this.gameMap.backgroundImage, "no-repeat")
+        this.context.drawImage(this.gameMap.backgroundImage, this.character.position.x * -1, this.character.position.y * -1)
     }
 
     drawCharacter() {
-        context.drawImage(
+        this.context.drawImage(
             this.character.playerImage,
             this.character.playerImageCropX,
             this.character.playerImageCropY,
@@ -90,18 +74,16 @@ export class CollisionEngine {
                 x > obj.leftSide - 10 &&
                 x < obj.rightSide + 10
         })
-        return this.collidedObject
     }
 
     hasCollidedIntoObject(x, y) {
         this.setCollidedObject(x,y)
-        this.collidedObject = this.collisionMap.some(function (obj) {
+        return this.collisionMap.some(function (obj) {
             return y > obj.topSide - 10 && // up boundary
                 y < obj.bottomSide + 10 &&
                 x > obj.leftSide - 10 &&
                 x < obj.rightSide + 10
         })
-        return this.collidedObject
     }
 
     setCollidedObjectAndReturnTrueIfCollided(x, y) {
@@ -109,8 +91,6 @@ export class CollisionEngine {
     }
 
     hasCollided(x, y) {
-        console.log(this.hasCollidedIntoObject(x, y))
-        console.log(this.backgroundImage.height)
         return (
             y < (this.backgroundImage.height - 400) * -0.5 || // up boundary
             y > this.backgroundImage.height * 0.5 ||
@@ -120,36 +100,3 @@ export class CollisionEngine {
         )
     }
 }
-
-let collisionMap = [
-    {
-        name: "resume",
-        href: "https://github.com/daniel-chen2/resume/blob/main/resume.pdf",
-        leftSide: -460,
-        rightSide: -265,
-        bottomSide: -30,
-        topSide: -180
-    },
-    {
-        name: "bed",
-        href: "https://www.youtube.com/watch?v=QRZ7VS7uJHI&ab_channel=AllieWiggle",
-        leftSide: -460,
-        rightSide: -265,
-        bottomSide: 277,
-        topSide: 110
-    },
-    {
-        name: "table",
-        leftSide: -50,
-        rightSide: 230,
-        bottomSide: 277,
-        topSide: 110
-    }
-]
-
-export const game = new Game(
-    new GameMap(canvas.width, canvas.height, "../imgs/mapBackground.png", null, null),
-    new Character({ x: 0, y: 0 }, 5, '../imgs/characterSheet.png'),
-    canvas,
-    collisionMap
-)

@@ -20,14 +20,13 @@ export class Character {
     }
 
     setPlayerPosition(x, y) {
-        console.log(this.position)
         if (!this.collisionEngine.hasCollided(x, y)) {
             this.position.y = y
             this.position.x = x
         }
     }
 
-    movePlayer() {
+    movePlayerAndSetCollidedObject() {
         if (isKeyDown.up) {
             this.setPlayerPosition(this.position.x, this.position.y - this.velocity)
             this.playerImageCropX = 32
@@ -48,17 +47,13 @@ export class Character {
             this.playerImageCropX = 64
             this.playerImageCropY = 0
         }
-        // this.setNearObject()
+        
     }
 
     openHrefOfNearObject() {
-        if (this.collisionEngine.collidedObject !== null && isKeyDown.enter) {
-            window.open(this.nearObject.href, '_blank');
+        let collidedObj = this.collisionEngine.getCollidedObject()
+        if (collidedObj != null && isKeyDown.enter) {
+            window.open(collidedObj.href, '_blank');
         }
-    }
-
-    executePlayerActions() {
-        this.movePlayer()
-        this.openHrefOfNearObject()
     }
 }
