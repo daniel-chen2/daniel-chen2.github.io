@@ -8,8 +8,4 @@ export class GameMap {
         this.backgroundImage.src = backgroundImageSrc
         this.boundaries = boundaries;
     }
-
-    draw(context, posX, posY) {
-        context.drawImage(this.backgroundImage, posX * -1, posY * -1)
-    }
 }
