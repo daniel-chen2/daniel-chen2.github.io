@@ -50,4 +50,3 @@ function animate() {
     game.animateFrame()
 }
 animate()
-

@@ -15,9 +15,14 @@ export class Game {
     }
 
     animateFrame() {
-        // console.log("hello")
         this.character.movePlayer()
         this.framePainter.repaintGameFrame(this.canvas, this.context, this.gameMap, this.character)
+    }
+}
+
+class Dialog {
+    constructor() {
+        this.text = "default text"
     }
 }
 
